@@ -1,0 +1,6 @@
+@API_RKonnect_HostAddress = http://localhost:5013
+
+GET {{API_RKonnect_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
