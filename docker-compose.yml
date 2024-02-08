@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  back-end:
+    build:
+      context: ./
+      dockerfile: ./API_RKonnect/Dockerfile
+    restart: always
+    ports:
+      - ${PORT_BACK}
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  postgres:
+      image: "postgres:14.2"
+      ports:
+        - ${PORT_DB}
+      restart: always
+      deploy:
+        mode: replicated
+        replicas: 1
+      environment:
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
+        POSTGRES_DB: ${DB_NAME}
+      volumes:
+        - ./db-data/postgres/:/var/lib/postgresql/data/
