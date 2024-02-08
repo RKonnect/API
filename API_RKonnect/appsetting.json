@@ -1,4 +1,7 @@
 {
+  "ConnectionStrings": {
+    "WebApiDatabase": "Host=localhost; Database=rKonnect; Username=petitRenard; Password=password2"
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Information",

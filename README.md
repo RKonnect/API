@@ -16,3 +16,10 @@ Cliquez sur le bouton avec la flèche verte "Docker"
 - Controllers
 - Models
 - Services
+
+
+## Commande pour réaliser les migrations 
+1) Faire la migration
+ dotnet ef migrations add InitialCreate
+2) Migrer la migration
+dotnet ef database update
