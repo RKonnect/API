@@ -21,7 +21,9 @@ Faite un ``docker compose up -d``
 
 
 ## Commande pour réaliser les migrations 
-1) Faire la migration
+1) Installer le tool
+``dotnet tool install --global dotnet-ef``
+2) Faire la migration
 ``dotnet ef migrations add InitialCreate``
-2) Migrer la migration
+3) Migrer la migration
 ``dotnet ef database update``
