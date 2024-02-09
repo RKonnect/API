@@ -1,5 +1,6 @@
 namespace API_RKonnect;
 
+using API_RKonnect.Models;
 using Microsoft.EntityFrameworkCore;
 using API_RKonnect;
 
@@ -18,5 +19,5 @@ public class DataContext : DbContext
         options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
     }
 
-    public DbSet<WeatherForecast> WeatherForecasts { get; set; }
+    public DbSet<User> Utilisateur { get; set; }
 }
