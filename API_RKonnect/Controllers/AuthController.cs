@@ -6,6 +6,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
+using API_RKonnect.Dto;
+using Microsoft.AspNetCore.Identity;
 
 namespace API_RKonnect.Controllers
 {
@@ -22,7 +24,7 @@ namespace API_RKonnect.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto request, [FromServices] DataContext context)
+        public async Task<ActionResult<User>> Register(RegisterDto request, [FromServices] DataContext context)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -41,7 +43,7 @@ namespace API_RKonnect.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDto request, [FromServices] DataContext context)
+        public async Task<ActionResult<string>> Login(LoginDto request, [FromServices] DataContext context)
         {
             var user = await context.Utilisateur.FirstOrDefaultAsync(u => u.Email == request.Email);
 
@@ -56,6 +58,7 @@ namespace API_RKonnect.Controllers
             }
 
             string token = CreateToken(user);
+
             return Ok(token);
         }
 
@@ -63,6 +66,7 @@ namespace API_RKonnect.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email)
             };
 
