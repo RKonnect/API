@@ -1,4 +1,6 @@
 using API_RKonnect;
+using API_RKonnect.Middleware;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"));
 });
 
+builder.Services.AddAuthentication("CustomScheme").AddScheme<AuthenticationSchemeOptions, AuthenticationJWTMiddleware>("CustomScheme", options => { });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +31,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
