@@ -1,5 +1,6 @@
 ﻿using API_RKonnect.Dto;
 using API_RKonnect.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace API_RKonnect.Controllers
     public class FoodController : ControllerBase
     {
 
+        [Authorize]
         [HttpPost("add")]
         public async Task<ActionResult<Food>> AddFood(FoodDto request, [FromServices] DataContext context)
         {

@@ -30,7 +30,6 @@ namespace API_RKonnect.Controllers
 
             var user = new User
             {
-                Name = request.Name,
                 Email = request.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
