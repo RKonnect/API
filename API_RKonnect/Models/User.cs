@@ -20,33 +20,5 @@ namespace API_RKonnect.Models
         public DateTime? DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
-        public void AjouterAllergy(int userId, int foodId, DataContext context)
-        {
-            if (userId <= 0 || foodId <= 0)
-            {
-                throw new ArgumentNullException("Au moins un id est de valeur 0 ou négatif");
-            }
-
-            User utilisateur = context.Utilisateur.FirstOrDefault(u => u.Id == userId);
-            Food food = context.Food.FirstOrDefault(f => f.Id == foodId);
-
-            if (utilisateur != null && food != null)
-            {
-                Allergy.Add(new UserAllergy
-                {
-                    UserId = userId,
-                    User = utilisateur,
-                    FoodId = foodId,
-                    Food = food,
-                });
-
-                context.SaveChanges();
-            }
-            else
-            {
-                Console.WriteLine("Utilisateur ou aliment non trouvé.");
-            }
-        }
     }
 }
