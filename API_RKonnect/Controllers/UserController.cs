@@ -73,7 +73,7 @@ namespace API_RKonnect.Controllers
             }
             else
             {
-                return Ok($"Allergy with ID {allergyId} added for user with ID {userId}");
+                return Unauthorized();
             }
         }
     }
