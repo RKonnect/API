@@ -23,6 +23,61 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
+        [HttpPut("update")]
+        public async Task<IActionResult> updateUser(UserDto request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId != null)
+            {
+                try
+                {
+                    int userIdInt = int.Parse(userId);
+                    var user = _context.Utilisateur.FirstOrDefault(u => u.Id == userIdInt);
+
+                    if (user != null)
+                    {
+                        if (request.Name != null)
+                            user.Name = request.Name;
+
+                        if (request.Surname != null)
+                            user.Surname = request.Surname;
+
+                        if (request.Pseudo != null)
+                            user.Pseudo = request.Pseudo;
+
+                        if (request.Biography != null)
+                            user.Biography = request.Biography;
+
+                        if (request.Avatar != null)
+                            user.Avatar = request.Avatar;
+
+                        if (request.Gender != null)
+                            user.Gender = request.Gender;
+
+                        if (request.Role != null)
+                            user.Role = request.Role;
+
+                        await _context.SaveChangesAsync();
+                        return Ok("User information updated successfully");
+                    }
+                    else
+                    {
+                        return NotFound("User not found");
+                    }
+                }
+                catch (FormatException)
+                {
+                    return BadRequest("Invalid user ID format");
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [Authorize]
         [HttpPost("addAllergy")]
         public async Task<IActionResult> addAllergy(Food request)
         {
