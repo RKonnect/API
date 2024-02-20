@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_RKonnect.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240215165331_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240220140445_enumRole")]
+    partial class enumRole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,8 +81,8 @@ namespace API_RKonnect.Migrations
                     b.Property<string>("Pseudo")
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("text");
+                    b.Property<int?>("Role")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Surname")
                         .HasColumnType("text");

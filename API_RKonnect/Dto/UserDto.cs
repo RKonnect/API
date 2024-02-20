@@ -1,4 +1,6 @@
-﻿namespace API_RKonnect.Dto
+﻿using API_RKonnect.Enum;
+
+namespace API_RKonnect.Dto
 {
     public class UserDto
     {
@@ -8,6 +10,6 @@
         public string? Biography { get; set; }
         public string? Avatar { get; set; }
         public string? Gender { get; set; }
-        public string? Role { get; set; }
+        public UserRole? Role { get; set; }
     }
 }

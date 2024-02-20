@@ -1,4 +1,5 @@
 ﻿using API_RKonnect.Dto;
+using API_RKonnect.Enum;
 using API_RKonnect.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -55,11 +56,15 @@ namespace API_RKonnect.Controllers
                         if (request.Gender != null)
                             user.Gender = request.Gender;
 
+
                         if (request.Role != null)
                             user.Role = request.Role;
 
+
                         await _context.SaveChangesAsync();
-                        return Ok("User information updated successfully");
+                        var userRoleName = request.Role.ToString();
+
+                        return Ok($"User information updated successfully {userRoleName}");
                     }
                     else
                     {

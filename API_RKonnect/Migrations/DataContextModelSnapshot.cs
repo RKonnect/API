@@ -78,8 +78,8 @@ namespace API_RKonnect.Migrations
                     b.Property<string>("Pseudo")
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("text");
+                    b.Property<int?>("Role")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Surname")
                         .HasColumnType("text");

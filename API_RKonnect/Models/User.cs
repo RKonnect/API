@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API_RKonnect.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace API_RKonnect.Models
 {
@@ -15,7 +16,7 @@ namespace API_RKonnect.Models
         public string? Biography { get; set; }
         public string? Avatar { get; set; }
         public string? Gender { get; set; }
-        public string? Role { get; set; }
+        public UserRole? Role { get; set; }
         public ICollection<UserAllergy>? Allergy { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
