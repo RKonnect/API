@@ -51,13 +51,16 @@ BASE_URL = ``https://localhost:7178/api``
 ### USER
 
 ### Ajout allergie
-**POST** : `{{BASE_URL}}/User/addAllergy` => Body JSON (**id** => id de l'aliment dans la table Food)
+**POST** : `{{BASE_URL}}/User/addAllergy` => Body JSON 
+- **id** => id de l'aliment dans la table Food
 ```
   "id": "string",
 ```
 
 ### Modification
-**PUT** : `{{BASE_URL}}/User/update` => BODY JSON (**Role** => 0: User ; 1: Professionnel) (**Gender** => 0: Femme ; 1: Homme ; 2: Autre)
+**PUT** : `{{BASE_URL}}/User/update` => BODY JSON 
+- **Role** => 0: User ; 1: Professionnel
+- **Gender** => 0: Femme ; 1: Homme ; 2: Autre
 ```
   "name": "string",
   "surname": "string",
