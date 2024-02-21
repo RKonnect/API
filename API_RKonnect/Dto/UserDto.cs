@@ -1,4 +1,4 @@
-﻿using API_RKonnect.Enum;
+﻿using API_RKonnect.Enums;
 
 namespace API_RKonnect.Dto
 {

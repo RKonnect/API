@@ -1,5 +1,5 @@
 ﻿using API_RKonnect.Dto;
-using API_RKonnect.Enum;
+using API_RKonnect.Enums;
 using API_RKonnect.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -56,11 +56,18 @@ namespace API_RKonnect.Controllers
                         if (request.Gender != null)
                             user.Gender = request.Gender;
 
-
-                        if (request.Role != null)
-                            user.Role = request.Role;
-
-
+                        if (request.Role.HasValue)
+                        {
+                            if(Enum.IsDefined(typeof(UserRole), request.Role.Value))
+                            {
+                                user.Role = request.Role;
+                            }
+                            else
+                            {
+                                throw new ArgumentException("Le rôle spécifié n'est pas valide.");
+                            }
+                        }
+                        
                         await _context.SaveChangesAsync();
                         var userRoleName = request.Role.ToString();
 

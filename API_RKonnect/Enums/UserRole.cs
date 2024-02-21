@@ -1,4 +1,4 @@
-﻿namespace API_RKonnect.Enum
+﻿namespace API_RKonnect.Enums
 {
     public enum UserRole
     {

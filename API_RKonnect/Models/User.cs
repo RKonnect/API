@@ -1,4 +1,4 @@
-﻿using API_RKonnect.Enum;
+﻿using API_RKonnect.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace API_RKonnect.Models
