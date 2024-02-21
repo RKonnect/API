@@ -27,3 +27,51 @@ Faite un ``docker compose up -d``
 ``dotnet ef migrations add InitialCreate``
 3) Migrer la migration
 ``dotnet ef database update``
+
+## ROUTES
+
+BASE_URL = ``https://localhost:7178/api``
+
+### AUTHENTICATION
+
+### Inscription
+**POST** : `{{BASE_URL}}/Auth/register` => Body JSON 
+```
+	"email": "string",
+	"password": "string"
+```
+
+### Connexion
+**POST** : `{{BASE_URL}}/Auth/login` => Body JSON
+```
+	"email": "string",
+	"password": "string"
+```
+
+### USER
+
+### Ajout allergie
+**POST** : `{{BASE_URL}}/User/addAllergy` => Body JSON (**id** => id de l'aliment dans la table Food)
+```
+  "id": "string",
+```
+
+### Modification
+**PUT** : `{{BASE_URL}}/User/update` => BODY JSON (**Role** => 0: User ; 1: Professionnel) (**Gender** => 0: Femme ; 1: Homme ; 2: Autre)
+```
+  "name": "string",
+  "surname": "string",
+  "pseudo": "string",
+  "biography": "string",
+  "avatar": "string",
+  "gender": 0,
+  "role": 0
+```
+
+### FOOD
+
+### Ajout aliment
+**POST** : `{{BASE_URL}}/Food/add` => BODY JSON
+```
+  "name": "string"
+```
