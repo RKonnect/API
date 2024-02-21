@@ -78,9 +78,7 @@ namespace API_RKonnect.Controllers
                         }
                         
                         await _context.SaveChangesAsync();
-                        var userRoleName = request.Role.ToString();
-
-                        return Ok($"User information updated successfully {userRoleName}");
+                        return Ok($"User information updated successfully");
                     }
                     else
                     {
