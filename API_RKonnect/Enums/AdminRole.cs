@@ -1,8 +1,9 @@
 ﻿namespace API_RKonnect.Enums
 {
-    public enum UserRole
+    public enum AdminRole
     {
         User,
-        Professional
+        Professional,
+        Admin
     }
 }
