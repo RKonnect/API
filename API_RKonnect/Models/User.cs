@@ -15,7 +15,7 @@ namespace API_RKonnect.Models
         public byte[] PasswordSalt { get; set; }
         public string? Biography { get; set; }
         public string? Avatar { get; set; }
-        public string? Gender { get; set; }
+        public UserGender? Gender { get; set; }
         public UserRole? Role { get; set; }
         public ICollection<UserAllergy>? Allergy { get; set; }
         public DateTime? DateOfBirth { get; set; }

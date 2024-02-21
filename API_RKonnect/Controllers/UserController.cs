@@ -53,8 +53,17 @@ namespace API_RKonnect.Controllers
                         if (request.Avatar != null)
                             user.Avatar = request.Avatar;
 
-                        if (request.Gender != null)
-                            user.Gender = request.Gender;
+                        if (request.Gender.HasValue)
+                        {
+                            if (Enum.IsDefined(typeof(UserGender), request.Gender.Value))
+                            {
+                                user.Gender = request.Gender;
+                            }
+                            else
+                            {
+                                throw new ArgumentException("The specified gender is invalid.");
+                            }
+                        }
 
                         if (request.Role.HasValue)
                         {
@@ -64,14 +73,14 @@ namespace API_RKonnect.Controllers
                             }
                             else
                             {
-                                throw new ArgumentException("Le rôle spécifié n'est pas valide.");
+                                throw new ArgumentException("The specified gender is invalid.");
                             }
                         }
                         
                         await _context.SaveChangesAsync();
-                        var userRoleName = request.Role.ToString();
+                        var userGenderName = request.Gender.ToString();
 
-                        return Ok($"User information updated successfully {userRoleName}");
+                        return Ok($"User information updated successfully {userGenderName}");
                     }
                     else
                     {

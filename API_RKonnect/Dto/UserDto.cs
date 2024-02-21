@@ -9,7 +9,7 @@ namespace API_RKonnect.Dto
         public string? Pseudo {  get; set; }
         public string? Biography { get; set; }
         public string? Avatar { get; set; }
-        public string? Gender { get; set; }
+        public UserGender? Gender { get; set; }
         public UserRole? Role { get; set; }
     }
 }
