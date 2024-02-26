@@ -150,5 +150,60 @@ namespace API_RKonnect.Controllers
                 return Unauthorized();
             }
         }
+
+        [Authorize]
+        [HttpPost("addFavorite")]
+        public async Task<IActionResult> addFavorite(Food request)
+        {
+            int favoriteId = request.Id;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var food = _context.Food.FirstOrDefault(f => f.Id == favoriteId);
+
+            if (userId != null && favoriteId != 0)
+            {
+                try
+                {
+                    int userIdInt = int.Parse(userId);
+                    var user = _context.Utilisateur.FirstOrDefault(u => u.Id == userIdInt);
+
+                    if (user != null && food != null)
+                    {
+
+                        user.FavoriteFood ??= new List<FavoriteFood>();
+
+                        // Check if the user already has the favorite food
+                        if (!user.FavoriteFood.Any(a => a.FoodId == favoriteId))
+                        {
+                            user.FavoriteFood.Add(new FavoriteFood
+                            {
+                                UserId = userIdInt,
+                                User = user,
+                                FoodId = favoriteId,
+                                Food = food,
+                            });
+
+                            await _context.SaveChangesAsync();
+                            return Ok($"Food with ID {favoriteId} added for user with ID {userId}");
+                        }
+                        else
+                        {
+                            return Conflict("User already has this favorite food");
+                        }
+                    }
+                    else
+                    {
+                        return NotFound("User or Food not found");
+                    }
+                }
+                catch (FormatException)
+                {
+                    return BadRequest("Invalid user ID format");
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
     }
 }
