@@ -21,5 +21,7 @@ public class DataContext : DbContext
 
     public DbSet<User> Utilisateur { get; set; }
     public DbSet<UserAllergy> UserAllergy { get; set; }
+    public DbSet<FavoriteFood> FavoriteFood { get; set; }
     public DbSet<Food> Food { get; set; }
+    public DbSet<Tag> Tag { get; set; }
 }
