@@ -85,3 +85,12 @@ BASE_URL = ``https://localhost:7178/api``
 ```
   "name": "string"
 ```
+
+### TAG
+
+### Ajout tag
+**POST** : `{{BASE_URL}}/Tag/add`
+```
+  "title": "string",
+  "icon": "string"
+```
