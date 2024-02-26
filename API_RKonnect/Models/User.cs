@@ -18,6 +18,7 @@ namespace API_RKonnect.Models
         public UserGender? Gender { get; set; }
         public UserRole? Role { get; set; }
         public ICollection<UserAllergy>? Allergy { get; set; }
+        public ICollection<FavoriteFood>? FavoriteFood { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
