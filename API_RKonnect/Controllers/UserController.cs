@@ -5,10 +5,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace API_RKonnect.Controllers
 {
@@ -24,8 +28,34 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
+        [HttpGet("getAll")]
+        public IActionResult GetAll()
+        {
+            var users = _context.Utilisateur
+                .Select(user => new GetUserInfoDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Pseudo = user.Pseudo,
+                    Email = user.Email,
+                    Biography = user.Biography,
+                    Avatar = user.Avatar,
+                    Gender = user.Gender,
+                    Role = user.Role,
+                    Tags = user.UserTag.Select(ut => new TagDto { Title = ut.Tag.Title, Icon = ut.Tag.Icon }).ToList(),
+                    Allergy = user.Allergy.Select(ua => new FoodDto { Name = ua.Food.Name }).ToList(),
+                    FavoriteFood = user.FavoriteFood.Select(ua => new FoodDto { Name = ua.Food.Name }).ToList()
+                })
+                .ToList();
+
+            return Ok(users);
+        }
+
+
+        [Authorize]
         [HttpPut("update")]
-        public async Task<IActionResult> updateUser(UserDto request)
+        public async Task<IActionResult> UpdateUser(UpdateUserDto request)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -67,7 +97,7 @@ namespace API_RKonnect.Controllers
 
                         if (request.Role.HasValue)
                         {
-                            if(Enum.IsDefined(typeof(UserRole), request.Role.Value))
+                            if (Enum.IsDefined(typeof(UserRole), request.Role.Value))
                             {
                                 user.Role = request.Role;
                             }
@@ -76,7 +106,7 @@ namespace API_RKonnect.Controllers
                                 throw new ArgumentException("The specified gender is invalid.");
                             }
                         }
-                        
+
                         await _context.SaveChangesAsync();
                         return Ok($"User information updated successfully");
                     }
