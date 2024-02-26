@@ -3,6 +3,7 @@ using System;
 using API_RKonnect;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_RKonnect.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240226101227_UserTag")]
+    partial class UserTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,29 +160,6 @@ namespace API_RKonnect.Migrations
                     b.ToTable("UserAllergy");
                 });
 
-            modelBuilder.Entity("API_RKonnect.Models.UserTag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TagId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserTag");
-                });
-
             modelBuilder.Entity("API_RKonnect.Models.FavoriteFood", b =>
                 {
                     b.HasOne("API_RKonnect.Models.Food", "Food")
@@ -218,32 +198,11 @@ namespace API_RKonnect.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("API_RKonnect.Models.UserTag", b =>
-                {
-                    b.HasOne("API_RKonnect.Models.Tag", "Tag")
-                        .WithMany()
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API_RKonnect.Models.User", "User")
-                        .WithMany("UserTag")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tag");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("API_RKonnect.Models.User", b =>
                 {
                     b.Navigation("Allergy");
 
                     b.Navigation("FavoriteFood");
-
-                    b.Navigation("UserTag");
                 });
 #pragma warning restore 612, 618
         }
