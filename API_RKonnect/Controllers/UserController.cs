@@ -205,5 +205,61 @@ namespace API_RKonnect.Controllers
                 return Unauthorized();
             }
         }
+
+        [Authorize]
+        [HttpPost("addTag")]
+        public async Task<IActionResult> addTag(Tag request)
+        {
+            int tagId = request.Id;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var tag = _context.Tag.FirstOrDefault(t => t.Id == tagId);
+
+            if (userId != null && tagId != 0)
+            {
+                try
+                {
+                    int userIdInt = int.Parse(userId);
+                    var user = _context.Utilisateur.FirstOrDefault(u => u.Id == userIdInt);
+
+                    if (user != null && tag != null)
+                    {
+
+                        user.UserTag ??= new List<UserTag>();
+
+                        // Check if the user already has the favorite food
+                        if (!user.UserTag.Any(t => t.TagId == tagId))
+                        {
+                            user.UserTag.Add(new UserTag
+                            {
+                                UserId = userIdInt,
+                                User = user,
+                                TagId = tagId,
+                                Tag = tag,
+                            });
+
+                            await _context.SaveChangesAsync();
+                            return Ok($"Tag with ID {tagId} added for user with ID {userId}");
+                        }
+                        else
+                        {
+                            return Conflict("User already has this tag");
+                        }
+                    }
+                    else
+                    {
+                        return NotFound("User or Tag not found");
+                    }
+                }
+                catch (FormatException)
+                {
+                    return BadRequest("Invalid user ID format");
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
     }
 }

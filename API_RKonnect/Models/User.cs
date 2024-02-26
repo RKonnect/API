@@ -17,6 +17,7 @@ namespace API_RKonnect.Models
         public string? Avatar { get; set; }
         public UserGender? Gender { get; set; }
         public UserRole? Role { get; set; }
+        public ICollection<UserTag>? UserTag { get; set; }
         public ICollection<UserAllergy>? Allergy { get; set; }
         public ICollection<FavoriteFood>? FavoriteFood { get; set; }
         public DateTime? DateOfBirth { get; set; }
