@@ -1,4 +1,5 @@
 ﻿using API_RKonnect.Dto;
+using API_RKonnect.Enums;
 using API_RKonnect.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -115,6 +116,63 @@ namespace API_RKonnect.Controllers
                         await context.SaveChangesAsync();
 
                         return Ok($"The new restaurant {newRestaurant.Name} has been added");
+                    }
+                    else
+                    {
+                        return NotFound("User not found");
+                    }
+                }
+                catch (FormatException)
+                {
+                    return BadRequest("Invalid user ID format");
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [Authorize]
+        [HttpPut("update/{restaurantId}")]
+        public async Task<IActionResult> Update(UpdateRestaurantDto request, int restaurantId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId != null)
+            {
+                try
+                {
+                    int userIdInt = int.Parse(userId);
+                    var user = _context.Utilisateur.FirstOrDefault(u => u.Id == userIdInt);
+                    var restaurant = _context.Restaurant.FirstOrDefault(r => r.Id == restaurantId && r.UserId == userIdInt);
+
+                    if (user != null)
+                    {
+                        if (restaurant != null)
+                        {
+                            if (request.Name != null)
+                                restaurant.Name = request.Name;
+
+                            if (request.Picture != null)
+                                restaurant.Picture = request.Picture;
+
+                            if (request.Url != null)
+                                restaurant.Url = request.Url;
+
+                            if (request.Price != null)
+                                restaurant.Price = (double)request.Price;
+
+                            if (request.VegetarianDish)
+                                restaurant.VegetarianDish = request.VegetarianDish;
+
+                            await _context.SaveChangesAsync();
+                            return Ok($"Restaurant information updated successfully {user.Pseudo}");
+                        }
+                        else
+                        {
+                            return Unauthorized($"{user.Pseudo} is not authorized to edit this restaurant");
+                        }
                     }
                     else
                     {
