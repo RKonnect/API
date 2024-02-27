@@ -61,6 +61,46 @@ namespace API_RKonnect.Migrations
                     b.ToTable("Food");
                 });
 
+            modelBuilder.Entity("API_RKonnect.Models.Restaurant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("VegetarianDish")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Restaurant");
+                });
+
             modelBuilder.Entity("API_RKonnect.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -199,6 +239,15 @@ namespace API_RKonnect.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API_RKonnect.Models.Restaurant", b =>
+                {
+                    b.HasOne("API_RKonnect.Models.User", "User")
+                        .WithMany("Restaurants")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("API_RKonnect.Models.UserAllergy", b =>
                 {
                     b.HasOne("API_RKonnect.Models.Food", "Food")
@@ -242,6 +291,8 @@ namespace API_RKonnect.Migrations
                     b.Navigation("Allergy");
 
                     b.Navigation("FavoriteFood");
+
+                    b.Navigation("Restaurants");
 
                     b.Navigation("UserTag");
                 });
