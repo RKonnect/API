@@ -26,6 +26,10 @@ namespace API_RKonnect.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(AuthDto request, [FromServices] DataContext context)
         {
+            if (request.Email == null && request.Password == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             var user = new User
@@ -44,6 +48,10 @@ namespace API_RKonnect.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(AuthDto request, [FromServices] DataContext context)
         {
+            if (request.Email == null && request.Password == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
             var user = await context.Utilisateur.FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user == null)
