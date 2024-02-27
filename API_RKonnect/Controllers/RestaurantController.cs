@@ -49,8 +49,42 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
+        [HttpGet("getById/{restaurantId}")]
+        public IActionResult getById(int restaurantId)
+        {
+            var SelectedRestaurant = _context.Restaurant
+                .Where(r => r.Id == restaurantId)
+                .Select(restaurant => new RestaurantDto
+                {
+                    Id = restaurant.Id,
+                    Name = restaurant.Name,
+                    Url = restaurant.Url,
+                    Picture = restaurant.Picture,
+                    Price = restaurant.Price,
+                    VegetarianDish = restaurant.VegetarianDish,
+                    User = new PublicUserDto
+                    {
+                        Id = restaurant.User.Id,
+                        Pseudo = restaurant.User.Pseudo,
+                        Avatar = restaurant.User.Avatar,
+                        Email = restaurant.User.Email,
+                        CreatedAt = restaurant.User.CreatedAt,
+                        UpdatedAt = restaurant.User.UpdatedAt
+                    }
+                })
+                .SingleOrDefault();
+
+            if (SelectedRestaurant == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(SelectedRestaurant);
+        }
+
+        [Authorize]
         [HttpPost("add")]
-        public async Task<ActionResult<Restaurant>> AddRestaurant(Restaurant request, [FromServices] DataContext context)
+        public async Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDto request, [FromServices] DataContext context)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId != null)
@@ -72,7 +106,7 @@ namespace API_RKonnect.Controllers
                         {
                             Name = request.Name,
                             Picture = request.Picture,
-                            Price = request.Price,
+                            Price = (double)request.Price,
                             UserId = userIdInt,
                             User = user
                         };
