@@ -165,13 +165,15 @@ namespace API_RKonnect.Controllers
 
                             if (request.VegetarianDish)
                                 restaurant.VegetarianDish = request.VegetarianDish;
+                            
+                            restaurant.UpdatedAt = DateTime.UtcNow;
 
                             await _context.SaveChangesAsync();
-                            return Ok($"Restaurant information updated successfully {user.Pseudo}");
+                            return Ok("Restaurant information updated successfully");
                         }
                         else
                         {
-                            return Unauthorized($"{user.Pseudo} is not authorized to edit this restaurant");
+                            return Unauthorized($"You are not authorized to edit this restaurant");
                         }
                     }
                     else
