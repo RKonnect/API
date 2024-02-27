@@ -42,7 +42,7 @@ namespace API_RKonnect.Controllers
             context.Utilisateur.Add(user);
             await context.SaveChangesAsync();
 
-            return Ok(user);
+            return Ok($"User {user.Pseudo} has been saved");
         }
 
         [HttpPost("login")]
