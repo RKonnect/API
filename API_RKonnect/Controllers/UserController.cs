@@ -45,11 +45,48 @@ namespace API_RKonnect.Controllers
                     Role = user.Role,
                     Tags = user.UserTag.Select(ut => new TagDto { Title = ut.Tag.Title, Icon = ut.Tag.Icon }).ToList(),
                     Allergy = user.Allergy.Select(ua => new FoodDto { Name = ua.Food.Name }).ToList(),
-                    FavoriteFood = user.FavoriteFood.Select(ua => new FoodDto { Name = ua.Food.Name }).ToList()
+                    FavoriteFood = user.FavoriteFood.Select(ua => new FoodDto { Name = ua.Food.Name }).ToList(),
+                    DateOfBirth = user.DateOfBirth,
+                    CreatedAt = user.CreatedAt,
+                    UpdatedAt = user.UpdatedAt,
                 })
                 .ToList();
 
             return Ok(users);
+        }
+
+        [Authorize]
+        [HttpGet("getById/{userId}")]
+        public IActionResult GetById(int userId)
+        {
+            var selectedUser = _context.Utilisateur
+                .Where(u => u.Id == userId)
+                .Select(user => new GetUserInfoDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Pseudo = user.Pseudo,
+                    Email = user.Email,
+                    Biography = user.Biography,
+                    Avatar = user.Avatar,
+                    Gender = user.Gender,
+                    Role = user.Role,
+                    Tags = user.UserTag.Select(ut => new TagDto { Title = ut.Tag.Title, Icon = ut.Tag.Icon }).ToList(),
+                    Allergy = user.Allergy.Select(ua => new FoodDto { Name = ua.Food.Name }).ToList(),
+                    FavoriteFood = user.FavoriteFood.Select(ua => new FoodDto { Name = ua.Food.Name }).ToList(),
+                    DateOfBirth = user.DateOfBirth,
+                    CreatedAt = user.CreatedAt,
+                    UpdatedAt = user.UpdatedAt,
+                })
+                .SingleOrDefault();
+
+            if (selectedUser == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(selectedUser);
         }
 
 
@@ -127,10 +164,9 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
-        [HttpPost("addAllergy")]
-        public async Task<IActionResult> addAllergy(Food request)
+        [HttpPost("addAllergy/{allergyId}")]
+        public async Task<IActionResult> addAllergy(int allergyId)
         {
-            int allergyId = request.Id;
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var food = _context.Food.FirstOrDefault(f => f.Id == allergyId);
 
@@ -182,10 +218,9 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
-        [HttpPost("addFavorite")]
-        public async Task<IActionResult> addFavorite(Food request)
+        [HttpPost("addFavorite/{favoriteId}")]
+        public async Task<IActionResult> addFavorite(int favoriteId)
         {
-            int favoriteId = request.Id;
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var food = _context.Food.FirstOrDefault(f => f.Id == favoriteId);
 
@@ -237,10 +272,9 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
-        [HttpPost("addTag")]
-        public async Task<IActionResult> addTag(Tag request)
+        [HttpPost("addTag/{tagId}")]
+        public async Task<IActionResult> addTag(int tagId)
         {
-            int tagId = request.Id;
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var tag = _context.Tag.FirstOrDefault(t => t.Id == tagId);
 

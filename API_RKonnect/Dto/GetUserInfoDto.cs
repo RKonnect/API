@@ -5,6 +5,13 @@ namespace API_RKonnect.Dto
 {
     public class GetUserInfoDto
     {
+        public GetUserInfoDto()
+        {
+            Tags = new List<TagDto>();
+            Allergy = new List<FoodDto>();
+            FavoriteFood = new List<FoodDto>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
