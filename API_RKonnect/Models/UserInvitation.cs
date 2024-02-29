@@ -6,13 +6,16 @@ namespace API_RKonnect.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public int InvitationId { get; set; }
-        [Required]
-        public Invitation Invitation { get; set; } = new Invitation();
+        public Invitation Invitation { get; set; }
+
         [Required]
         public int UserId { get; set; }
+        public User User { get; set; }
+
         [Required]
-        public User User { get; set; } = new User();
+        public bool IsAccepted { get; set; } = false;
     }
 }
