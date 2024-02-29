@@ -164,7 +164,7 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
-        [HttpPost("addAllergy/{allergyId}")]
+        [HttpGet("addAllergy/{allergyId}")]
         public async Task<IActionResult> addAllergy(int allergyId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -218,7 +218,7 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
-        [HttpPost("addFavorite/{favoriteId}")]
+        [HttpGet("addFavorite/{favoriteId}")]
         public async Task<IActionResult> addFavorite(int favoriteId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -272,7 +272,7 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
-        [HttpPost("addTag/{tagId}")]
+        [HttpGet("addTag/{tagId}")]
         public async Task<IActionResult> addTag(int tagId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
