@@ -16,9 +16,9 @@ namespace API_RKonnect.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<Tag>> AddTag(TagDto request, [FromServices] DataContext context)
         {
-            if (string.IsNullOrWhiteSpace(request.Title) && string.IsNullOrWhiteSpace(request.Icon))
+            if (string.IsNullOrWhiteSpace(request.Title))
             {
-                return BadRequest("Tag title or icon cannot be empty.");
+                return BadRequest("Tag title cannot be empty.");
             }
 
             var tagExists = await context.Tag.FirstOrDefaultAsync(t => t.Title == request.Title);
@@ -30,7 +30,6 @@ namespace API_RKonnect.Controllers
             var tag = new Tag
             {
                 Title = request.Title,
-                Icon = request.Icon
             };
 
             context.Tag.Add(tag);
