@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using System.Security.Claims;
 
 namespace API_RKonnect.Controllers
@@ -42,6 +43,15 @@ namespace API_RKonnect.Controllers
                         Email = restaurants.User.Email,
                         CreatedAt = restaurants.User.CreatedAt,
                         UpdatedAt = restaurants.User.UpdatedAt
+                    },
+                    Localisation = new Localisation
+                    {
+                        Id = restaurants.Localisation.Id,
+                        Lat = restaurants.Localisation.Lat,
+                        Lng = restaurants.Localisation.Lng,
+                        Adress = restaurants.Localisation.Adress,
+                        City = restaurants.Localisation.City,
+                        ZipCode = restaurants.Localisation.ZipCode
                     }
                 })
                 .ToList();
@@ -71,6 +81,15 @@ namespace API_RKonnect.Controllers
                         Email = restaurant.User.Email,
                         CreatedAt = restaurant.User.CreatedAt,
                         UpdatedAt = restaurant.User.UpdatedAt
+                    },
+                    Localisation = new Localisation
+                    {
+                        Id = restaurant.Localisation.Id,
+                        Lat = restaurant.Localisation.Lat,
+                        Lng = restaurant.Localisation.Lng,
+                        Adress = restaurant.Localisation.Adress,
+                        City = restaurant.Localisation.City,
+                        ZipCode = restaurant.Localisation.ZipCode
                     }
                 })
                 .SingleOrDefault();
