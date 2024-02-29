@@ -53,12 +53,47 @@ namespace API_RKonnect.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Food");
+                });
+
+            modelBuilder.Entity("API_RKonnect.Models.Localisation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Adress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Lat")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Lng")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("ZipCode")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Localisation");
                 });
 
             modelBuilder.Entity("API_RKonnect.Models.Restaurant", b =>
@@ -72,14 +107,18 @@ namespace API_RKonnect.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("LocalisationId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Picture")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double?>("Price")
+                    b.Property<double>("Price")
                         .HasColumnType("double precision");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -88,13 +127,15 @@ namespace API_RKonnect.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("VegetarianDish")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocalisationId");
 
                     b.HasIndex("UserId");
 
@@ -108,9 +149,6 @@ namespace API_RKonnect.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Icon")
-                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
@@ -158,6 +196,7 @@ namespace API_RKonnect.Migrations
                         .HasColumnType("bytea");
 
                     b.Property<string>("Pseudo")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("Role")
@@ -241,9 +280,19 @@ namespace API_RKonnect.Migrations
 
             modelBuilder.Entity("API_RKonnect.Models.Restaurant", b =>
                 {
+                    b.HasOne("API_RKonnect.Models.Localisation", "Localisation")
+                        .WithMany()
+                        .HasForeignKey("LocalisationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API_RKonnect.Models.User", "User")
                         .WithMany("Restaurants")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Localisation");
 
                     b.Navigation("User");
                 });

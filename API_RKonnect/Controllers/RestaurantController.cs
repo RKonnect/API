@@ -94,13 +94,33 @@ namespace API_RKonnect.Controllers
                 {
                     int userIdInt = int.Parse(userId);
                     var user = _context.Utilisateur.FirstOrDefault(u => u.Id == userIdInt);
+                    var newLoc = new Localisation();
 
                     if (user != null)
                     {
                         var restaurantExist = await context.Restaurant.FirstOrDefaultAsync(r => r.Name == request.Name);
+                        var localisationExist = await context.Localisation.FirstOrDefaultAsync(l => l.Lng == request.Lng && l.Lat == request.Lat);
+                        
                         if (restaurantExist != null)
                         {
                             return BadRequest("This restaurant already exists.");
+                        }
+                       
+                        //Check if localisation exist
+                        if (localisationExist != null)
+                        {
+                            newLoc = localisationExist;
+                        }
+                        else
+                        {
+                            newLoc = new Localisation
+                            {
+                                Lat = request.Lat,
+                                Lng = request.Lng,
+                                Adress = request.Adress,
+                                City = request.City,
+                                ZipCode = request.ZipCode
+                            };
                         }
 
                         var newRestaurant = new Restaurant
@@ -109,7 +129,8 @@ namespace API_RKonnect.Controllers
                             Picture = request.Picture,
                             Price = (double)request.Price,
                             UserId = userIdInt,
-                            User = user
+                            User = user,
+                            Localisation = newLoc
                         };
 
                         context.Restaurant.Add(newRestaurant);

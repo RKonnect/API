@@ -16,9 +16,9 @@ namespace API_RKonnect.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<Food>> AddFood(FoodDto request, [FromServices] DataContext context)
         {
-            if (string.IsNullOrWhiteSpace(request.Name))
+            if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Icon))
             {
-                return BadRequest("Food name cannot be empty.");
+                return BadRequest("Food name or icon cannot be empty.");
             }
 
             var foodExists = await context.Food.FirstOrDefaultAsync(f => f.Name == request.Name);
@@ -30,6 +30,7 @@ namespace API_RKonnect.Controllers
             var food = new Food
             {
                 Name = request.Name,
+                Icon = request.Icon
             };
 
             context.Food.Add(food);
