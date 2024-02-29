@@ -41,6 +41,7 @@ namespace API_RKonnect.Controllers
                             var newInvitation = new Invitation
                             {
                                 Restaurant = restaurantExists,
+                                Host = user,
                                 UserMax = request.UserMax,
                                 PaymentType = request.PaymentType,
                                 InvitationDate = request.InvitationDate.ToUniversalTime()

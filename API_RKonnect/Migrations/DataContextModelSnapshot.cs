@@ -77,6 +77,9 @@ namespace API_RKonnect.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("HostId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("InvitationDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -90,6 +93,8 @@ namespace API_RKonnect.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HostId");
 
                     b.HasIndex("RestaurantId");
 
@@ -336,11 +341,19 @@ namespace API_RKonnect.Migrations
 
             modelBuilder.Entity("API_RKonnect.Models.Invitation", b =>
                 {
+                    b.HasOne("API_RKonnect.Models.User", "Host")
+                        .WithMany()
+                        .HasForeignKey("HostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API_RKonnect.Models.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Host");
 
                     b.Navigation("Restaurant");
                 });

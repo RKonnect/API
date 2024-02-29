@@ -10,6 +10,7 @@ namespace API_RKonnect.Models
         [Required]
         public Restaurant Restaurant { get; set; }
         [Required]
+        public User Host { get; set; }
         public int UserMax { get; set; }
         public PaymentType? PaymentType { get; set; }
         [Required]
