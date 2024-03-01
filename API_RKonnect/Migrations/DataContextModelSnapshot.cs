@@ -66,6 +66,41 @@ namespace API_RKonnect.Migrations
                     b.ToTable("Food");
                 });
 
+            modelBuilder.Entity("API_RKonnect.Models.Invitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("HostId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("InvitationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("PaymentType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserMax")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HostId");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("Invitation");
+                });
+
             modelBuilder.Entity("API_RKonnect.Models.Localisation", b =>
                 {
                     b.Property<int>("Id")
@@ -236,6 +271,32 @@ namespace API_RKonnect.Migrations
                     b.ToTable("UserAllergy");
                 });
 
+            modelBuilder.Entity("API_RKonnect.Models.UserInvitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("InvitationId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvitationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserInvitation");
+                });
+
             modelBuilder.Entity("API_RKonnect.Models.UserTag", b =>
                 {
                     b.Property<int>("Id")
@@ -278,6 +339,25 @@ namespace API_RKonnect.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API_RKonnect.Models.Invitation", b =>
+                {
+                    b.HasOne("API_RKonnect.Models.User", "Host")
+                        .WithMany()
+                        .HasForeignKey("HostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API_RKonnect.Models.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Host");
+
+                    b.Navigation("Restaurant");
+                });
+
             modelBuilder.Entity("API_RKonnect.Models.Restaurant", b =>
                 {
                     b.HasOne("API_RKonnect.Models.Localisation", "Localisation")
@@ -312,6 +392,25 @@ namespace API_RKonnect.Migrations
                         .IsRequired();
 
                     b.Navigation("Food");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("API_RKonnect.Models.UserInvitation", b =>
+                {
+                    b.HasOne("API_RKonnect.Models.Invitation", "Invitation")
+                        .WithMany()
+                        .HasForeignKey("InvitationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API_RKonnect.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invitation");
 
                     b.Navigation("User");
                 });

@@ -349,13 +349,39 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "{{BASE_URL}}/Restaurant/getAll",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Restaurant",
+								"getAll"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "update",
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/Restaurant/getById/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Restaurant",
+								"getById",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
 					"request": {
 						"method": "PUT",
 						"header": [],
