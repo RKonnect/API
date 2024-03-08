@@ -30,6 +30,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 // Register custom services
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IFoodServices, FoodServices>();
 builder.Services.AddAuthentication("CustomScheme").AddScheme<AuthenticationSchemeOptions, AuthenticationJWTMiddleware>("CustomScheme", options => { });
 
 var app = builder.Build();
