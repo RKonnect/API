@@ -25,8 +25,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"));
+
 });
 
+// Register custom services
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddAuthentication("CustomScheme").AddScheme<AuthenticationSchemeOptions, AuthenticationJWTMiddleware>("CustomScheme", options => { });
 
 var app = builder.Build();
