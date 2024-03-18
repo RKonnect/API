@@ -1,4 +1,5 @@
 using API_RKonnect;
+using API_RKonnect.Interfaces;
 using API_RKonnect.Middleware;
 using API_RKonnect.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -34,6 +35,7 @@ builder.Services.AddAuthentication("CustomScheme").AddScheme<AuthenticationSchem
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IFoodServices, FoodServices>();
 builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IInvitationService, InvitationService>();
 
 var app = builder.Build();
