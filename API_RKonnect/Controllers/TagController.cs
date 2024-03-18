@@ -14,28 +14,9 @@ namespace API_RKonnect.Controllers
 
         [Authorize]
         [HttpPost("add")]
-        public async Task<ActionResult<Tag>> AddTag(TagDto request, [FromServices] DataContext context)
+        public async Task<ActionResult<Tag>> AddTag(TagDto request, [FromServices] DataContext context, [FromServices] ITagService tagService)
         {
-            if (string.IsNullOrWhiteSpace(request.Title))
-            {
-                return BadRequest("Tag title cannot be empty.");
-            }
-
-            var tagExists = await context.Tag.FirstOrDefaultAsync(t => t.Title == request.Title);
-            if (tagExists != null)
-            {
-                return BadRequest("This tag already exists.");
-            }
-
-            var tag = new Tag
-            {
-                Title = request.Title,
-            };
-
-            context.Tag.Add(tag);
-            await context.SaveChangesAsync();
-
-            return Ok(tag);
+            return await tagService.AddTag(request, context);
         }
 
     }

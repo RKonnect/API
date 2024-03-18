@@ -1,5 +1,7 @@
 using API_RKonnect;
+using API_RKonnect.Interfaces;
 using API_RKonnect.Middleware;
+using API_RKonnect.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,8 +31,13 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 // Register custom services
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddAuthentication("CustomScheme").AddScheme<AuthenticationSchemeOptions, AuthenticationJWTMiddleware>("CustomScheme", options => { });
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IFoodServices, FoodServices>();
+builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+builder.Services.AddScoped<IInvitationService, InvitationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
