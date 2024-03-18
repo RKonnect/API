@@ -30,6 +30,14 @@ namespace API_RKonnect.Controllers
             return restaurantService.getById(restaurantId, context);
         }
 
+        // Algo de recommandation en fonction des intérêts de l'utilisateur
+        [Authorize]
+        [HttpGet("getByUserId/{userId}")]
+        public IActionResult getByUserId(int userId, [FromServices] DataContext context, [FromServices] IRestaurantService restaurantService)
+        {
+            return restaurantService.getByUserId(userId, context);
+        }
+
         [Authorize]
         [HttpPost("add")]
         public async Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDto request, [FromServices] DataContext context, [FromServices] IRestaurantService restaurantService)

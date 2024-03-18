@@ -85,6 +85,63 @@ public class RestaurantService : IRestaurantService
         return new OkObjectResult(SelectedRestaurant);
     }
 
+    public IActionResult getByUserId(int userId, [FromServices] DataContext context)
+    {
+        var user = context.Utilisateur.FirstOrDefault(u => u.Id == userId);
+        if (user == null)
+        {
+            return new NotFoundObjectResult("User not found");
+        }
+
+        // Récupérer les plats (food) favoris de l'utilisateur
+        var favoritesFoodUserConnected = context.FavoriteFood
+             .Where(f => f.UserId == userId)
+             .Select(f => f.FoodId)
+             .ToList();
+        // Récupérer les tags de l'utilisateur
+        var tagsUserConnected = context.UserTag
+            .Where(t => t.UserId == userId)
+            .Select(t => t.TagId)
+            .ToList();
+
+        // Comparer les plats favoris de l'utilisateur avec les autres utilisateurs
+        // qui ont déjà accepté ou envoyé des invitations
+        // et si possible qui partagent les mêmes tags
+        // et si possible qui sont dans la même ville
+        var usersWithSameFavoriteFoods = context.FavoriteFood
+            .Where(f => f.UserId != userId && favoritesFoodUserConnected.Contains(f.FoodId))
+            .Select(f => f.UserId)
+            .Distinct()
+            .ToList();
+
+        var userWithSameTags = context.UserTag
+            .Where(ut => tagsUserConnected.Contains(ut.UserId))
+            .Select(ut => ut.UserId)
+            .ToList();
+
+        var restaurants = context.UserInvitation
+            .Where(ui => ui.IsAccepted && (usersWithSameFavoriteFoods.Contains(ui.UserId) || userWithSameTags.Contains(ui.UserId)))
+            .Join(context.Invitation, ui => ui.InvitationId, i => i.Id, (ui, i) => new { ui.UserId, i.Restaurant })
+            .Where(Restaurant => Restaurant.Restaurant.UserId == userId)
+            .Select(Restaurant => new RestaurantDto{
+                Id = Restaurant.Restaurant.Id,
+                Name = Restaurant.Restaurant.Name,
+                Url = Restaurant.Restaurant.Url,
+                Picture = Restaurant.Restaurant.Picture,
+                Price = Restaurant.Restaurant.Price,
+                VegetarianDish = Restaurant.Restaurant.VegetarianDish
+            })
+            .Distinct()
+            .ToList();
+
+        
+        // Si user a déjà accepté ou envoyé des invitations (
+
+
+        return new OkObjectResult(restaurants);
+    }
+
+
     public async Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDto request, int userId, [FromServices] DataContext context)
     {
 

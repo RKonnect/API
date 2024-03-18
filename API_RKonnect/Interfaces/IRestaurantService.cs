@@ -8,6 +8,9 @@ namespace API_RKonnect.Interfaces
     {
         IActionResult getAll([FromServices] DataContext context);
         IActionResult getById(int restaurantId, [FromServices] DataContext context);
+
+        IActionResult getByUserId(int userId, [FromServices] DataContext context);
+
         Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDto request, int userId, [FromServices] DataContext context);
         Task<IActionResult> Update(UpdateRestaurantDto request, int userId, int restaurantId, [FromServices] DataContext context);
     }
