@@ -26,6 +26,12 @@ public class AuthenticationService : IAuthenticationService
             throw new ArgumentNullException(nameof(request));
         }
 
+        // Check si l'email est déjà utilisé
+        if (await context.Utilisateur.AnyAsync(u => u.Email == request.Email))
+        {
+            return new BadRequestObjectResult("Email already used.");
+        }
+
         CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         var user = new User

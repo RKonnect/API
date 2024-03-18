@@ -1,5 +1,6 @@
 ﻿using API_RKonnect.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API_RKonnect.Models
 {
@@ -23,7 +24,9 @@ namespace API_RKonnect.Models
         public string? Surname { get; set; }
         public string Pseudo { get; set; } = "Utilisateur#";
         public string? Email { get; set; }
+        [JsonIgnore]
         public byte[] PasswordHash { get; set; }
+        [JsonIgnore]
         public byte[] PasswordSalt { get; set; }
         public string? Biography { get; set; }
         public string? Avatar { get; set; }
