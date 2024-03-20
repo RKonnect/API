@@ -57,5 +57,12 @@ namespace API_RKonnect.Controllers
 
             return await restaurantService.Update(request, userId, restaurantId, context);
         }
+
+        [Authorize]
+        [HttpPost("addImage/{restaurantId}")]
+        public async Task<IActionResult> AddImage(int restaurantId, [FromForm] ImageUploadModel model, [FromServices] DataContext context, [FromServices] IRestaurantService restaurantService)
+        {
+            return await restaurantService.AddImage(restaurantId, model, context);
+        }
     }
 }

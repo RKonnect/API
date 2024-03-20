@@ -13,5 +13,6 @@ namespace API_RKonnect.Interfaces
 
         Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDto request, int userId, [FromServices] DataContext context);
         Task<IActionResult> Update(UpdateRestaurantDto request, int userId, int restaurantId, [FromServices] DataContext context);
+        Task<IActionResult> AddImage(int restaurantId, [FromForm] ImageUploadModel model, [FromServices] DataContext context);
     }
 }
