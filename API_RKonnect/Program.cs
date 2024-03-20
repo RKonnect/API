@@ -3,6 +3,7 @@ using API_RKonnect.Interfaces;
 using API_RKonnect.Middleware;
 using API_RKonnect.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +39,13 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IInvitationService, InvitationService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 5242880; // 5 Mo
+});
+
 
 var app = builder.Build();
 
