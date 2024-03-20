@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Faker;
 using Enum = System.Enum;
 using System.Security.Cryptography;
+using API_RKonnect.Services;
 
 namespace API_RKonnect.Controllers
 {
@@ -16,6 +17,9 @@ namespace API_RKonnect.Controllers
         public async Task<IActionResult> AddFakeDatas([FromServices] DataContext context)
         {
             var indexUsed = new List<int>();
+            var tagSaved = new List<Tag>();
+            var foodSaved = new List<Food>();
+            var userSaved = new List<User>();
 
             var fakeRestau = new List<(double Lat, double Lng, string Adress, string City, int ZipCode, string restauName, string Url, string Picture, double Price, bool VegetarianDish)>
             {
@@ -39,12 +43,37 @@ namespace API_RKonnect.Controllers
                 ("Viande", "fa-solid fa-drumstick-bite")
             };
 
+            foreach (var food in listFood)
+            {
+                var newFood = new Food
+                {
+                    Name = food.Name,
+                    Icon = food.Icon
+                };
+                foodSaved.Add(newFood);
+                context.Food.Add(newFood);
+                await context.SaveChangesAsync();
+                Console.WriteLine($"Nouvel aliment créé : {newFood.Name}");
+            }
+
             var listTag = new List<string>
             {
                 "Cinema", "Sport", "Lecture", "Jeux-vidéo", "Musique", "Crypto", "Peinture", "Art",
                 "Photographie", "Voyage", "Cuisine", "Technologie", "Jardinage","Mode", "Fitness", 
                 "Écriture", "Théâtre", "Danse", "Science", "Astronomie"
             };
+
+            foreach (var tag in listTag)
+            {
+                var newTag = new Tag
+                {
+                    Title = tag
+                };
+                context.Tag.Add(newTag);
+                tagSaved.Add(newTag);
+                await context.SaveChangesAsync();
+                Console.WriteLine($"Nouveau tag créé : {newTag.Id} {newTag.Title}");
+            }
 
             for (int i = 0; i < 18; i++)
             {
@@ -68,13 +97,18 @@ namespace API_RKonnect.Controllers
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     Biography = Lorem.Paragraph(),
-                    //Avatar =
                     Gender = randomGender,
                     Role = randomRole,
                     DateOfBirth = Identification.DateOfBirth()
                 };
+                userSaved.Add(newUser);
                 context.Utilisateur.Add(newUser);
                 Console.WriteLine($"Nouvel utilisateur créé : {newUser.Name} {newUser.Surname}");
+
+                // Initialiser les list pour le nouvel utilisateur
+                newUser.UserTag = new List<UserTag>();
+                newUser.FavoriteFood = new List<FavoriteFood>();
+                newUser.Allergy = new List<UserAllergy>();
 
                 //ADD RESTAURANT
                 if (newUser.Role == Enums.UserRole.Professional)
@@ -83,8 +117,12 @@ namespace API_RKonnect.Controllers
                     do
                     {
                         index = random.Next(fakeRestau.Count);
-                    } 
-                    while (indexUsed.Contains(index));
+                        if (!indexUsed.Contains(index))
+                        {
+                            break;
+                        }
+                    }
+                    while (true);
 
                     indexUsed.Add(index);
                     var restauInfo = fakeRestau[index];
@@ -109,8 +147,58 @@ namespace API_RKonnect.Controllers
                     };
                     context.Restaurant.Add(newRestaurant);
                     Console.WriteLine($"Nouveau restaurant créé : {newRestaurant.Name}");
-
                 }
+                await context.SaveChangesAsync();
+
+                //ADD USER TAG
+                var randomUserIndex = random.Next(userSaved.Count);
+                var randomUser = userSaved[randomUserIndex];
+
+                int randomUserTagNumber = random.Next(1, 2);
+                for (int j = 0; j < randomUserTagNumber; j++)
+                {
+                    var randomTagIndex = random.Next(tagSaved.Count);
+                    var randomTag = tagSaved[randomTagIndex];
+
+                    context.UserTag.Add(new UserTag
+                    {
+                        UserId = randomUser.Id,
+                        User = randomUser,
+                        TagId = randomTag.Id,
+                        Tag = randomTag
+                    });
+                }
+
+                int randomUserFavNumber = random.Next(1, 2);
+                for (int j = 0; j < randomUserFavNumber; j++)
+                {
+                    var randomFavIndex = random.Next(foodSaved.Count);
+                    var randomFav = foodSaved[randomFavIndex];
+
+                    context.FavoriteFood.Add(new FavoriteFood
+                    {
+                        UserId = randomUser.Id,
+                        User = randomUser,
+                        FoodId = randomFav.Id,
+                        Food = randomFav,
+                    });
+                }
+
+                int randomUserAllergyNumber = random.Next(1, 2);
+                for (int j = 0; j < randomUserAllergyNumber; j++)
+                {
+                    var randomAllergyIndex = random.Next(foodSaved.Count);
+                    var randomAllergy = foodSaved[randomAllergyIndex];
+
+                    context.UserAllergy.Add(new UserAllergy
+                    {
+                        UserId = randomUser.Id,
+                        User = randomUser,
+                        FoodId = randomAllergy.Id,
+                        Food = randomAllergy,
+                    });
+                }
+
 
                 await context.SaveChangesAsync();
             }
