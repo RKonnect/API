@@ -49,6 +49,16 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
+        [HttpPost("changeAvatar/{userId}/{avatarId}")]
+        public async Task<IActionResult> ChangeAvatar(int userId, int avatarId, [FromServices] DataContext context, IUserService userService)
+        {
+            var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            int currentUserId = int.Parse(user);
+
+            return await userService.ChangeAvatar(userId, avatarId, context);
+        }
+
+        [Authorize]
         [HttpGet("addAllergy/{allergyId}")]
         public async Task<IActionResult> addAllergy(int allergyId, [FromServices] DataContext context, IUserService userService)
         {
