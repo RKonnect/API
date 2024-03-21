@@ -32,9 +32,12 @@ namespace API_RKonnect.Controllers
 
         // Algo de recommandation en fonction des intérêts de l'utilisateur
         [Authorize]
-        [HttpGet("getByUserId/{userId}")]
-        public IActionResult getByUserId(int userId, [FromServices] DataContext context, [FromServices] IRestaurantService restaurantService)
+        [HttpGet("getByUserId")]
+        public IActionResult getByUserId([FromServices] DataContext context, [FromServices] IRestaurantService restaurantService)
         {
+            var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            int userId = int.Parse(user);
+
             return restaurantService.getByUserId(userId, context);
         }
 
