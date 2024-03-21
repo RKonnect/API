@@ -1,10 +1,12 @@
 using API_RKonnect;
 using API_RKonnect.Interfaces;
 using API_RKonnect.Middleware;
+using API_RKonnect.Models;
 using API_RKonnect.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -60,6 +62,13 @@ app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "avatars")),
+    RequestPath = "/avatars"
+});
+
 
 app.MapControllers();
 

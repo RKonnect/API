@@ -2,14 +2,22 @@
 using API_RKonnect.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.Entity;
 using API_RKonnect.Enums;
-using System.Security.Claims;
 
 namespace API_RKonnect.Services
 {
+
     public class UserService : IUserService
     {
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public UserService(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+
         public IActionResult GetAll([FromServices] DataContext context)
         {
             var users = context.Utilisateur
@@ -133,6 +141,28 @@ namespace API_RKonnect.Services
             else
             {
                 return new UnauthorizedObjectResult(401);
+            }
+        }
+
+        public async Task<IActionResult> ChangeAvatar(int userId, int avatarId, [FromServices] DataContext context)
+        {
+            var user = context.Utilisateur.FirstOrDefault(u => u.Id == userId);
+
+            if (user != null)
+            {
+                var avatar = context.Avatar.FirstOrDefault(a => a.Id == avatarId);
+                if (avatar != null)
+                {
+                    var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
+                    var imagePath = $"avatars/{avatar.Name}";
+
+                    user.Avatar = baseUrl + '/' + imagePath;
+                }
+                await context.SaveChangesAsync();
+                return new OkObjectResult($"Avatar with ID {avatarId} added for user with ID {userId}");
+            } else
+            {
+                return new NotFoundObjectResult("User not found");
             }
         }
 

@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using API_RKonnect.Dto;
 using API_RKonnect.Models;
-using API_RKonnect.Enums;
 using API_RKonnect;
 using API_RKonnect.Interfaces;
-using System.Security.Claims;
 
 public class RestaurantService : IRestaurantService
 {
