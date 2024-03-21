@@ -69,6 +69,13 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/avatars"
 });
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
+    RequestPath = "/uploads"
+});
+
 
 app.MapControllers();
 
