@@ -1,9 +1,12 @@
 using API_RKonnect;
 using API_RKonnect.Interfaces;
 using API_RKonnect.Middleware;
+using API_RKonnect.Models;
 using API_RKonnect.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -38,6 +41,13 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IInvitationService, InvitationService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 5242880; // 5 Mo
+});
+
 
 var app = builder.Build();
 
@@ -52,6 +62,13 @@ app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "avatars")),
+    RequestPath = "/avatars"
+});
+
 
 app.MapControllers();
 

@@ -22,6 +22,50 @@ namespace API_RKonnect.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("API_RKonnect.Models.Avatar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Avatar");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "avatar1.png"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "avatar2.png"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "avatar3.png"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "avatar4.png"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "avatar5.png"
+                        });
+                });
+
             modelBuilder.Entity("API_RKonnect.Models.FavoriteFood", b =>
                 {
                     b.Property<int>("Id")

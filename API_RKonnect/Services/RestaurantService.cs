@@ -2,13 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 using API_RKonnect.Dto;
 using API_RKonnect.Models;
-using API_RKonnect.Enums;
 using API_RKonnect;
 using API_RKonnect.Interfaces;
-using System.Security.Claims;
 
 public class RestaurantService : IRestaurantService
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public RestaurantService(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
     public IActionResult getAll([FromServices] DataContext context)
     {
         var restaurants = context.Restaurant
@@ -261,6 +266,37 @@ public class RestaurantService : IRestaurantService
         else
         {
             return new UnauthorizedObjectResult(401);
+        }
+    }
+
+    public async Task<IActionResult> AddImage(int restaurantId, [FromForm] ImageUploadModel model, [FromServices] DataContext context)
+    {
+        var restaurant = context.Restaurant.FirstOrDefault(r => r.Id == restaurantId);
+
+        if (restaurant != null)
+        {
+            if (model.Image == null || model.Image.Length == 0)
+            {
+                return new BadRequestObjectResult("Aucune image sélectionnée");
+            }
+
+            var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
+
+            var imagePath = $"uploads/{Guid.NewGuid().ToString()}_{model.Image.FileName}";
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                await model.Image.CopyToAsync(stream);
+            }
+
+            var imageUrl = $"{baseUrl}/{imagePath}";
+            restaurant.Picture = imageUrl;
+            await context.SaveChangesAsync();
+
+            return new OkObjectResult(imageUrl);
+        }
+        else
+        {
+            return new NotFoundObjectResult("Restaurant not found");
         }
     }
 }
