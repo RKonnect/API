@@ -139,11 +139,27 @@ public class RestaurantService : IRestaurantService
             .Distinct()
             .ToList();
 
+        // Additionner la liste des restaurants de l'utilisateur avec la liste complète des restaurants en évitant les doublons
+        var allRestaurants = context.Restaurant
+            .Select(restaurant => new RestaurantDto
+            {
+                Id = restaurant.Id,
+                Name = restaurant.Name,
+                Url = restaurant.Url,
+                Picture = restaurant.Picture,
+                Price = restaurant.Price,
+                VegetarianDish = restaurant.VegetarianDish
+            })
+            .ToList();
+
+
+        var restaurantResult = restaurants.Concat(allRestaurants).Distinct().ToList();
+
         
         // Si user a déjà accepté ou envoyé des invitations (
 
 
-        return new OkObjectResult(restaurants);
+        return new OkObjectResult(restaurantResult);
     }
 
 
