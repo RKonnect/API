@@ -199,7 +199,6 @@ namespace API_RKonnect.Controllers
                     });
                 }
 
-
                 await context.SaveChangesAsync();
             }
 
