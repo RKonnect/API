@@ -94,6 +94,7 @@ namespace API_RKonnect.Controllers
                     Surname = FakerSurname,
                     Email = $"{FakerName}.{FakerSurname}@gmail.com",
                     Pseudo = $"{FakerName}{FakerSurname}",
+                    Avatar = "avatar1.png",
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     Biography = Lorem.Paragraph(),
