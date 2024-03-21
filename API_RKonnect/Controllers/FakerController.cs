@@ -23,13 +23,13 @@ namespace API_RKonnect.Controllers
 
             var fakeRestau = new List<(double Lat, double Lng, string Adress, string City, int ZipCode, string restauName, string Url, string Picture, double Price, bool VegetarianDish)>
             {
-                (49.4441883, 1.0934149, "33 All. Eugène Delacroix", "Rouen", 76000, "L'ardoise", "", "https://localhost:7178/uploads/restau_ardoise.jpg", 25, true),
-                (49.443127, 1.077645, "8 All. Eugène Delacroix", "Rouen", 76000, "EL PALAZZO", "", "https://localhost:7178/uploads/el_palazzo.jpg", 20, true),
-                (49.4400381, 1.0977943, "260 Rue Martainville", "Rouen", 76000, "La Walsheim", "", "https://localhost:7178/uploads/la_walsheim.jpg", 20, false),
-                (49.4414083, 1.0991352, "243 Rue Eau de Robec", "Rouen", 76000, "Ho Lamian", "", "https://localhost:7178/uploads/ho_lamian.jpg", 22, true),
-                (49.4432727, 1.0863193, "15 Rue Thomas Corneille", "Rouen", 76000, "Rest'O'Rock", "", "https://localhost:7178/uploads/Rest_O_Rock.jpg", 23, true),
-                (49.4439563, 1.0872589, "27 Rue Cauchoise", "Rouen", 76000, "Le Bistrot d'Arthur", "", "https://localhost:7178/uploads/bistrot_arthur.jpg", 18, true),
-                (49.439598, 1.0998013, "144 Rue Martainville", "Rouen", 76000, "Romy", "", "https://localhost:7178/uploads/romy.jpg", 18, true),
+                (49.4441883, 1.0934149, "33 All. Eugène Delacroix", "Rouen", 76000, "L'ardoise", "", "restau_ardoise.jpg", 25, true),
+                (49.443127, 1.077645, "8 All. Eugène Delacroix", "Rouen", 76000, "EL PALAZZO", "", "el_palazzo.jpg", 20, true),
+                (49.4400381, 1.0977943, "260 Rue Martainville", "Rouen", 76000, "La Walsheim", "", "la_walsheim.jpg", 20, false),
+                (49.4414083, 1.0991352, "243 Rue Eau de Robec", "Rouen", 76000, "Ho Lamian", "", "ho_lamian.jpg", 22, true),
+                (49.4432727, 1.0863193, "15 Rue Thomas Corneille", "Rouen", 76000, "Rest'O'Rock", "", "Rest_O_Rock.jpg", 23, true),
+                (49.4439563, 1.0872589, "27 Rue Cauchoise", "Rouen", 76000, "Le Bistrot d'Arthur", "", "bistrot_arthur.jpg", 18, true),
+                (49.439598, 1.0998013, "144 Rue Martainville", "Rouen", 76000, "Romy", "", "romy.jpg", 18, true),
             };
 
             var listFood = new List<(string Name, string Icon)>
