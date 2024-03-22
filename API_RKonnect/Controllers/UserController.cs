@@ -49,11 +49,11 @@ namespace API_RKonnect.Controllers
         }
 
         [Authorize]
-        [HttpPost("changeAvatar/{userId}/{avatarId}")]
-        public async Task<IActionResult> ChangeAvatar(int userId, int avatarId, [FromServices] DataContext context, IUserService userService)
+        [HttpPost("changeAvatar/{avatarId}")]
+        public async Task<IActionResult> ChangeAvatar(int avatarId, [FromServices] DataContext context, IUserService userService)
         {
             var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            int currentUserId = int.Parse(user);
+            int userId = int.Parse(user);
 
             return await userService.ChangeAvatar(userId, avatarId, context);
         }
