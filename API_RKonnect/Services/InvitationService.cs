@@ -69,7 +69,7 @@ namespace API_RKonnect.Services
                                                 City = i.Restaurant.Localisation.City,
                                                 ZipCode = i.Restaurant.Localisation.ZipCode
                                             }
-                                        }).FirstOrDefault() // Utilisez FirstOrDefault pour récupérer un seul restaurant
+                                        }).FirstOrDefault()
                     }).ToList();
 
                 if (invitations == null)
