@@ -5,5 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 public interface IFoodServices
 {
+    IActionResult GetAll([FromServices] DataContext context);
     Task<ActionResult<string>> AddFood(FoodDto request, [FromServices] DataContext context);
 }

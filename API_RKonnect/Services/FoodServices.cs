@@ -6,6 +6,14 @@ using API_RKonnect;
 
 public class FoodServices : IFoodServices
 {
+    public IActionResult GetAll([FromServices] DataContext context)
+    {
+        var foods = context.Food
+            .AsNoTracking()
+            .ToList();
+
+        return new OkObjectResult(foods);
+    }
     public async Task<ActionResult<string>> AddFood(FoodDto request, [FromServices] DataContext context)
     {
         if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Icon))
