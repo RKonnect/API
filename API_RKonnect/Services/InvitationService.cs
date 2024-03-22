@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using API_RKonnect.Dto;
 using API_RKonnect.Models;
 using API_RKonnect.Enums;
+using System.Collections.Generic;
 
 namespace API_RKonnect.Services
 {
@@ -14,24 +15,62 @@ namespace API_RKonnect.Services
             if (currentUser != null)
             {
                 var invitations = context.UserInvitation
-               .Where(ui => ui.UserId == userId)
-               .Include(ui => ui.Invitation)
-               .Select(ui => new GetInvitationInfoDto
-               {
-                   InvitationId = ui.InvitationId,
-                   IsAccepted = ui.IsAccepted,
-                   Guests = context.UserInvitation
-                               .Where(u => u.InvitationId == ui.InvitationId && u.UserId != userId)
-                               .Select(u => new PublicUserDto
-                               {
-                                   Id = u.UserId,
-                                   Pseudo = u.User.Pseudo,
-                                   Avatar = u.User.Avatar,
-                                   Email = u.User.Email,
-                                   CreatedAt = u.User.CreatedAt,
-                                   UpdatedAt = u.User.UpdatedAt
-                               }).ToList()
-               }).ToList();
+                    .Where(ui => ui.UserId == userId)
+                    .Include(ui => ui.Invitation)
+                    .Select(ui => new GetInvitationInfoDto
+                    {
+                        InvitationId = ui.InvitationId,
+                        IsAccepted = ui.IsAccepted,
+                        Guests = context.UserInvitation
+                                    .Where(u => u.InvitationId == ui.InvitationId && u.UserId != userId)
+                                    .Select(u => new PublicUserDto
+                                    {
+                                        Id = u.UserId,
+                                        Pseudo = u.User.Pseudo,
+                                        Avatar = u.User.Avatar,
+                                        Email = u.User.Email,
+                                        CreatedAt = u.User.CreatedAt,
+                                        UpdatedAt = u.User.UpdatedAt
+                                    }).ToList(),
+                        Host = new PublicUserDto
+                        {
+                            Id = currentUser.Id,
+                            Pseudo = currentUser.Pseudo,
+                            Avatar = currentUser.Avatar,
+                            Email = currentUser.Email,
+                            CreatedAt = currentUser.CreatedAt,
+                            UpdatedAt = currentUser.UpdatedAt
+                        },
+                        Restaurants = context.Invitation
+                                        .Where(i => i.Id == ui.InvitationId)
+                                        .Select(i => new RestaurantDto
+                                        {
+                                            Id = i.Restaurant.Id,
+                                            Name = i.Restaurant.Name,
+                                            Url = i.Restaurant.Url,
+                                            Picture = i.Restaurant.Picture,
+                                            Price = i.Restaurant.Price,
+                                            VegetarianDish = i.Restaurant.VegetarianDish,
+                                            User = new PublicUserDto
+                                            {
+                                                Id = i.Host.Id,
+                                                Pseudo = i.Host.Pseudo,
+                                                Avatar = i.Host.Avatar,
+                                                Email = i.Host.Email,
+                                                CreatedAt = i.Host.CreatedAt,
+                                                UpdatedAt = i.Host.UpdatedAt
+                                            },
+                                            Localisation = new Localisation
+                                            {
+                                                Id = i.Restaurant.Localisation.Id,
+                                                Lat = i.Restaurant.Localisation.Lat,
+                                                Lng = i.Restaurant.Localisation.Lng,
+                                                Adress = i.Restaurant.Localisation.Adress,
+                                                City = i.Restaurant.Localisation.City,
+                                                ZipCode = i.Restaurant.Localisation.ZipCode
+                                            }
+                                        }).FirstOrDefault() // Utilisez FirstOrDefault pour récupérer un seul restaurant
+                    }).ToList();
 
                 if (invitations == null)
                 {

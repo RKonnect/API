@@ -41,6 +41,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IInvitationService, InvitationService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAvatarService, AvatarService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<FormOptions>(options =>
