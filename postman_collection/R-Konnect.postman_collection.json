@@ -1,0 +1,454 @@
+{
+	"info": {
+		"_postman_id": "916e9b0a-d716-4d63-b696-b1c0eb8316a1",
+		"name": "R-Konnect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29649129",
+		"_collection_link": "https://bold-resonance-704083.postman.co/workspace/R-Konnect~e91dca8f-5a0a-4342-b1e6-d7489dde2808/collection/33204799-916e9b0a-d716-4d63-b696-b1c0eb8316a1?action=share&source=collection_link&creator=29649129"
+	},
+	"item": [
+		{
+			"name": "Utilisateur",
+			"item": [
+				{
+					"name": "GetAllUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/User/getAll",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"User",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/User/getById/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"User",
+								"getById",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUserTag",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/User/addTag/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"User",
+								"addTag",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddAllergy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/User/addAllergy/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"User",
+								"addAllergy",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddFavoriteFood",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/User/addFavorite/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"User",
+								"addFavorite",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"pseudo\": \"TestPseudo\",\r\n  \"surname\": \"Pseudo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/User/update",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"User",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentification",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"azerty\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Auth/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"azerty\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5013/api/Auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5013",
+							"path": [
+								"api",
+								"Auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Aliments",
+			"item": [
+				{
+					"name": "AddFood",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Lait\",\r\n    \"Icon\": \"icon1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Food/add",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Food",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tags",
+			"item": [
+				{
+					"name": "AddTag",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"TestTag\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Tag/add",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Tag",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant",
+			"item": [
+				{
+					"name": "AddRestaurant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Name\": \"TestRestau3\",\r\n  \"Picture\": \"https://fsdfdfdfdsf\",\r\n  \"Price\": 34.99,\r\n  \"VegetarianDish\": true,\r\n  \"Lat\": 1.2565455,\r\n  \"Lng\": 0.5645785,\r\n  \"Adress\": \"TestAdressRestau\",\r\n  \"City\": \"Rouen\",\r\n  \"ZipCode\": 76000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5013/api/Restaurant/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5013",
+							"path": [
+								"api",
+								"Restaurant",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/Restaurant/getAll",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Restaurant",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/Restaurant/getById/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Restaurant",
+								"getById",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"restaurant\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5013/api/Restaurant/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5013",
+							"path": [
+								"api",
+								"Restaurant",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ0ZXN0QHRlc3QuY29tIiwiZXhwIjoxNzA5Mjg0MDc2fQ.FwfjEd-Zw3SQvfN4T372vhI2FIlR6JEr0DDXwzvhXOEzg7yDcI_3kPsJakrELdxUIx9VoIvStLx8LTlfARtGNw",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:5013/api",
+			"type": "string"
+		}
+	]
+}
