@@ -9,6 +9,12 @@ namespace API_RKonnect.Controllers
     [ApiController]
     public class FoodController : ControllerBase
     {
+        [Authorize]
+        [HttpGet("getAll")]
+        public IActionResult GetAll([FromServices] DataContext context, [FromServices] IFoodServices foodServices)
+        {
+            return foodServices.GetAll(context);
+        }
 
         [Authorize]
         [HttpPost("add")]
