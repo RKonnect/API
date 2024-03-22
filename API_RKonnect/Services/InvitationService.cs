@@ -9,6 +9,65 @@ namespace API_RKonnect.Services
 {
     public class InvitationService : IInvitationService
     {
+        public IActionResult getAll([FromServices] DataContext context)
+        {
+            var invitations = context.Invitation
+                .Select(invitation => new GetInvitationInfoDto
+                {
+                    InvitationId = invitation.Id,
+                    Guests = context.UserInvitation
+                                    .Where(u => u.InvitationId == invitation.Id)
+                                    .Select(u => new PublicUserDto
+                                    {
+                                        Id = u.UserId,
+                                        Pseudo = u.User.Pseudo,
+                                        Avatar = u.User.Avatar,
+                                        Email = u.User.Email,
+                                        CreatedAt = u.User.CreatedAt,
+                                        UpdatedAt = u.User.UpdatedAt
+                                    }).ToList(),
+                    Host = new PublicUserDto
+                    {
+                        Id = invitation.Host.Id,
+                        Pseudo = invitation.Host.Pseudo,
+                        Avatar = invitation.Host.Avatar,
+                        Email = invitation.Host.Email,
+                        CreatedAt = invitation.Host.CreatedAt,
+                        UpdatedAt = invitation.Host.UpdatedAt
+                    },
+                    Restaurants = new RestaurantDto
+                    {
+                        Id = invitation.Restaurant.Id,
+                        Name = invitation.Restaurant.Name,
+                        Url = invitation.Restaurant.Url,
+                        Picture = invitation.Restaurant.Picture,
+                        Price = invitation.Restaurant.Price,
+                        VegetarianDish = invitation.Restaurant.VegetarianDish,
+                        User = new PublicUserDto
+                        {
+                            Id = invitation.Host.Id,
+                            Pseudo = invitation.Host.Pseudo,
+                            Avatar = invitation.Host.Avatar,
+                            Email = invitation.Host.Email,
+                            CreatedAt = invitation.Host.CreatedAt,
+                            UpdatedAt = invitation.Host.UpdatedAt
+                        },
+                        Localisation = new Localisation
+                        {
+                            Id = invitation.Restaurant.Localisation.Id,
+                            Lat = invitation.Restaurant.Localisation.Lat,
+                            Lng = invitation.Restaurant.Localisation.Lng,
+                            Adress = invitation.Restaurant.Localisation.Adress,
+                            City = invitation.Restaurant.Localisation.City,
+                            ZipCode = invitation.Restaurant.Localisation.ZipCode
+                        }
+                    }
+                }).ToList();
+
+            return new OkObjectResult(invitations);
+        }
+
+
         public IActionResult GetInvitationById(int userId, [FromServices] DataContext context)
         {
             var currentUser = context.Utilisateur.FirstOrDefault(u => u.Id == userId);
@@ -20,7 +79,6 @@ namespace API_RKonnect.Services
                     .Select(ui => new GetInvitationInfoDto
                     {
                         InvitationId = ui.InvitationId,
-                        IsAccepted = ui.IsAccepted,
                         Guests = context.UserInvitation
                                     .Where(u => u.InvitationId == ui.InvitationId && u.UserId != userId)
                                     .Select(u => new PublicUserDto

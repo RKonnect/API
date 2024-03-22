@@ -14,6 +14,12 @@ namespace API_RKonnect.Controllers
     [ApiController]
     public class InvitationController : ControllerBase
     {
+        [Authorize]
+        [HttpGet("getAll")]
+        public IActionResult GetAll([FromServices] DataContext context, [FromServices] IInvitationService invitationService)
+        {
+            return invitationService.getAll(context);
+        }
 
         [Authorize]
         [HttpGet("getById/{userId}")]
